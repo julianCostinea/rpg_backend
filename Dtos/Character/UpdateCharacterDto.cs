@@ -1,6 +1,6 @@
 ﻿namespace rpg_backend.Dtos.Character;
 
-public class AddCharacterDto
+public class UpdateCharacterDto
 {
     public int Id { get; set; }
     public string Name { get; set; } = "Frodo";
