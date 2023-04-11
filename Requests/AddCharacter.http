@@ -1,0 +1,7 @@
+POST https://localhost:7136/api/Character
+Content-Type: application/json
+
+{
+  "name": "New guy",
+  "HitPoints": 10
+}
