@@ -1,5 +1,6 @@
 global using rpg_backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using rpg_backend.Data;
 using rpg_backend.Services.CharacterService;
 
@@ -14,6 +15,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins("http://localhost:3000");
+            policy.WithHeaders(HeaderNames.ContentType);
         });
 });
 builder.Services.AddControllers();
