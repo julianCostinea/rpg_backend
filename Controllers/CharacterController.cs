@@ -32,6 +32,12 @@ public class CharacterController: ControllerBase
     [HttpPost]
     public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> AddCharacter(AddCharacterDto newCharacter)
     {
+        var response = await _characterService.AddCharacter(newCharacter);
+        if (response.Data == null)
+        {
+            response.Message = "Character could not be added";
+            return BadRequest(response);
+        }
         return Ok(await _characterService.AddCharacter(newCharacter));
     }
     
