@@ -41,6 +41,7 @@ public class CharacterService : ICharacterService
         await _context.SaveChangesAsync();
         serviceResponse.Data = await _context.Characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToListAsync();
         serviceResponse.Message = "Character added successfully";
+        
         return serviceResponse;
     }
 
@@ -61,6 +62,7 @@ public class CharacterService : ICharacterService
 
             await _context.SaveChangesAsync();
             response.Data = _mapper.Map<GetCharacterDto>(character);
+            response.Message = "Character updated successfully";
         }
         catch (Exception ex)
         {

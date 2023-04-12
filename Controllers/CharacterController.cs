@@ -38,7 +38,7 @@ public class CharacterController: ControllerBase
             response.Message = "Character could not be added";
             return BadRequest(response);
         }
-        return Ok(await _characterService.AddCharacter(newCharacter));
+        return Ok(response);
     }
     
     [HttpPut]
