@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using rpg_backend.Dtos.Character;
@@ -25,10 +26,12 @@ public class CharacterController: ControllerBase
         return Ok(await _characterService.GetCharacterById(id));
     }
     
+    // [AllowAnonymous]
     [HttpGet("GetAll")]
     public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> Get()
     {
-        return Ok(await _characterService.GetAllCharacters());
+        int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        return Ok(await _characterService.GetAllCharacters(userId));
     }
     
     [HttpPost]
