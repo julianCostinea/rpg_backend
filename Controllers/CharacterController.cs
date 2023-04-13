@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using rpg_backend.Dtos.Character;
 using rpg_backend.Services.CharacterService;
@@ -7,6 +8,7 @@ namespace rpg_backend.Controllers;
 
 [EnableCors("localhost")]
 [Route("api/[controller]")]
+[Authorize]
 [ApiController]
 public class CharacterController: ControllerBase
 {
