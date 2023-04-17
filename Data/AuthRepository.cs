@@ -52,6 +52,7 @@ public class AuthRepository : IAuthRepository
         }
         else
         {
+            response.Message= "Login successful.";
             response.Data = CreateToken(user);
         }
         return response;

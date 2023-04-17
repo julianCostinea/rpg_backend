@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using rpg_backend.Data;
 using rpg_backend.Dtos.User;
 
 namespace rpg_backend.Controllers;
 
+[EnableCors("localhost")]
 [ApiController]
 [Route("[controller]")]
 public class AuthController: ControllerBase

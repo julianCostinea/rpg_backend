@@ -20,6 +20,11 @@ public class CharacterService : ICharacterService
     {
         var response = new ServiceResponse<List<GetCharacterDto>>();
         var dbCharacters = await _context.Characters.Where(c => c.User.Id == userId).ToListAsync();
+        if (dbCharacters.Count == 0)
+        {
+            response.Message = "No characters found";
+            return response;    
+        }
         response.Data = dbCharacters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
         return response;
     }
