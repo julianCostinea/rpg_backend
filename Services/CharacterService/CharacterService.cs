@@ -65,18 +65,27 @@ public class CharacterService : ICharacterService
 
         try
         {
-            var character = await _context.Characters.FirstOrDefaultAsync(c => c.Id == updatedCharacter.Id);
+            var character = await _context.Characters.Include(c => c.User)
+                .FirstOrDefaultAsync(c => c.Id == updatedCharacter.Id);
             // character.Name = updatedCharacter.Name;
             // character.Class = updatedCharacter.Class;
             // character.Defense = updatedCharacter.Defense;
             // character.HitPoints = updatedCharacter.HitPoints;
             // character.Intelligence = updatedCharacter.Intelligence;
             // character.Strength = updatedCharacter.Strength;
-            _mapper.Map(updatedCharacter, character);
 
-            await _context.SaveChangesAsync();
-            response.Data = _mapper.Map<GetCharacterDto>(character);
-            response.Message = "Character updated successfully";
+            if (character.User.Id == GetUserId())
+            {
+                _mapper.Map(updatedCharacter, character);
+
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetCharacterDto>(character);
+                response.Message = "Character updated successfully";
+            } else
+            {
+                response.Success = false;
+                response.Message = "Character not found";
+            }
         }
         catch (Exception ex)
         {
