@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using rpg_backend.Data;
 using rpg_backend.Services.CharacterService;
+using rpg_backend.Services.WeaponService;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,6 +54,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IWeaponService, WeaponService>();
 
 var app = builder.Build();
 

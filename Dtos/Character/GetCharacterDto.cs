@@ -1,4 +1,6 @@
-﻿namespace rpg_backend.Dtos.Character;
+﻿using rpg_backend.Dtos.Skill;
+
+namespace rpg_backend.Dtos.Character;
 
 public class GetCharacterDto
 {
@@ -9,4 +11,8 @@ public class GetCharacterDto
     public int Defense { get; set; } = 10;
     public int Intelligence { get; set; } = 10;
     public RpgClass Class { get; set; } = RpgClass.Knight;
+    //this needs automapperprofile
+    public GetWeaponDto Weapon { get; set; }
+    //also needs automapperprofile
+    public List<GetSkillDto> Skills { get; set; }
 }
