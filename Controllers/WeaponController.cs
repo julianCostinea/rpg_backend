@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using rpg_backend.Dtos.Character;
 using rpg_backend.Dtos.Weapon;
@@ -7,7 +8,8 @@ using rpg_backend.Services.WeaponService;
 namespace rpg_backend.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[EnableCors("localhost")]
+[Route("api/[controller]")]
 [Authorize]
 public class WeaponController:ControllerBase
 {

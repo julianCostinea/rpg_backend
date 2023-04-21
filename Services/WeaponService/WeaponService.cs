@@ -46,6 +46,7 @@ public class WeaponService : IWeaponService
 
             _context.Weapons.Add(weapon);
             await _context.SaveChangesAsync();
+            response.Message = "Weapon added successfully.";
             response.Data = _mapper.Map<GetCharacterDto>(character);
         }
         catch (Exception e)

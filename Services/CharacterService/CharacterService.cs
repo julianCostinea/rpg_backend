@@ -25,7 +25,10 @@ public class CharacterService : ICharacterService
     public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
     {
         var response = new ServiceResponse<List<GetCharacterDto>>();
-        var dbCharacters = await _context.Characters.Where(c => c.User.Id == GetUserId()).ToListAsync();
+        var dbCharacters = await _context.Characters
+            .Include(c=>c.Weapon)
+            .Include(c=>c.Skills)
+            .Where(c => c.User.Id == GetUserId()).ToListAsync();
         if (dbCharacters.Count == 0)
         {
             response.Message = "No characters found";
