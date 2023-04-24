@@ -156,6 +156,7 @@ public class CharacterService : ICharacterService
             character.Skills.Add(skill);
             await _context.SaveChangesAsync();
 
+            response.Message = "Skill added to character";
             response.Data = _mapper.Map<GetCharacterDto>(character);
         }
         catch (Exception ex)

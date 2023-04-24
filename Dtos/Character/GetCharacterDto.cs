@@ -15,4 +15,7 @@ public class GetCharacterDto
     public GetWeaponDto Weapon { get; set; }
     //also needs automapperprofile
     public List<GetSkillDto> Skills { get; set; }
+    public int Fights { get; set; }
+    public int Victories { get; set; }
+    public int Defeats { get; set; }
 }
