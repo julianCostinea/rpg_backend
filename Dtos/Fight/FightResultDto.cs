@@ -1,0 +1,6 @@
+﻿namespace rpg_backend.Dtos.Fight;
+
+public class FightResultDto
+{
+    public List<string> Log { get; set; } = new List<string>();
+}
