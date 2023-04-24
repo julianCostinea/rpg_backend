@@ -20,4 +20,10 @@ public class FightController:ControllerBase
     {
         return Ok(await _fightService.WeaponAttack(request));
     }
+    
+    [HttpPost("Skill")]
+    public async Task<ActionResult<ServiceResponse<AttackResultDto>>> SkillAttack(SkillAttackDto request)
+    {
+        return Ok(await _fightService.SkillAttack(request));
+    }
 }
