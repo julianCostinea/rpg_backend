@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using rpg_backend.Dtos.Fight;
 using rpg_backend.Services.FightService;
 
 namespace rpg_backend.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[EnableCors("localhost")]
+[Route("api/[controller]")]
 public class FightController:ControllerBase
 {
     private readonly IFightService _fightService;
