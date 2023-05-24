@@ -85,7 +85,7 @@ public class AuthRepository : IAuthRepository
         }
     }
 
-    private string CreateToken(User user)
+    public string CreateToken(User user)
     {
         List<Claim> claims = new List<Claim>
         {

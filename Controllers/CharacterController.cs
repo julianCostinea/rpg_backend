@@ -19,11 +19,13 @@ public class CharacterController: ControllerBase
     {
         _characterService = characterService;
     }
+
     
     [HttpGet("{id}")]
     public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> GetSingle(int id)
     {
         return Ok(await _characterService.GetCharacterById(id));
+
     }
     
     // [AllowAnonymous]
