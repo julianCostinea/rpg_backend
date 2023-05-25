@@ -85,4 +85,97 @@ public class CharacterControllerTests : IDisposable
         var data = JsonConvert.DeserializeObject<ServiceResponse<List<GetCharacterDto>>>(await response.Content.ReadAsStringAsync());
         Assert.That(data.Data.ElementAt(0).Name, Is.EqualTo("Oak"));
     }
+    
+    [Test]
+    public async Task GetCharacterById_Authorized_Returns200()
+    {
+        var mockCharacter = new ServiceResponse<GetCharacterDto>
+        {
+            Data = new GetCharacterDto()
+            {
+                Id = 2,
+                Name = "Oak",
+                HitPoints = 100,
+                Strength = 10,
+                Defense = 10,
+                Intelligence = 10,
+            },
+            Success = true,
+            Message = "Success"
+        };
+
+        _factory.CharacterServiceMock.Setup(r => r.GetCharacterById(2)).ReturnsAsync(mockCharacter);
+
+        var user = new UserLoginDto()
+        {
+            Username = "oak",
+            Password = "1"
+        };
+
+        var res = await _client.PostAsync("auth/login", JsonContent.Create(user));
+        var token = JsonConvert.DeserializeObject<ServiceResponse<string>>(await res.Content.ReadAsStringAsync()).Data;
+
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        var response = await _client.GetAsync("/api/Character/2");
+
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        
+        var data = JsonConvert.DeserializeObject<ServiceResponse<GetCharacterDto>>(await response.Content.ReadAsStringAsync());
+        Assert.That(data.Data.Name, Is.EqualTo("Oak"));
+    }
+    
+    [Test]
+    public async Task DeleteCharacter_Authorized_Returns200()
+    {
+        var mockCharacter = new ServiceResponse<List<GetCharacterDto>>
+        {
+            Data = new List<GetCharacterDto>()
+            {
+                new GetCharacterDto()
+                {
+                    Id = 2,
+                    Name = "Oak",
+                    HitPoints = 100,
+                    Strength = 10,
+                    Defense = 10,
+                    Intelligence = 10,
+                },
+                new GetCharacterDto()
+                {
+                    Id = 3,
+                    Name = "Oak2",
+                    HitPoints = 100,
+                    Strength = 10,
+                    Defense = 10,
+                    Intelligence = 10,
+                }
+            },
+            Success = true,
+            Message = "Success"
+        };
+
+        _factory.CharacterServiceMock.Setup(r => r.GetAllCharacters()).ReturnsAsync(mockCharacter);
+
+        var user = new UserLoginDto()
+        {
+            Username = "oak",
+            Password = "1"
+        };
+
+        var res = await _client.PostAsync("auth/login", JsonContent.Create(user));
+        var token = JsonConvert.DeserializeObject<ServiceResponse<string>>(await res.Content.ReadAsStringAsync()).Data;
+
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        var response = await _client.DeleteAsync("/api/Character/2");
+
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        
+        var data = JsonConvert.DeserializeObject<ServiceResponse<List<GetCharacterDto>>>(await response.Content.ReadAsStringAsync());
+        Console.WriteLine("data");
+        foreach (var item in data.Data)
+        {
+            Console.WriteLine(item.Name);
+        }
+        Assert.That(data.Data.Count, Is.EqualTo(1));
+    }
 }
