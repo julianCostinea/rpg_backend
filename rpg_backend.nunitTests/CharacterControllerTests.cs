@@ -24,6 +24,12 @@ public class CharacterControllerTests : IDisposable
         _factory = new CustomWebApplicationFactory();
         _client = _factory.CreateClient();
     }
+    
+    public void Dispose()
+    {
+        _client.Dispose();
+        _factory.Dispose();
+    }
 
     [SetUp]
     public void Setup()
@@ -33,33 +39,10 @@ public class CharacterControllerTests : IDisposable
     [Test]
     public async Task GetAllCharacters_NotAuthorized_Returns401()
     {
-        var mockCharacters = new ServiceResponse<List<GetCharacterDto>>
-        {
-            Data = new List<GetCharacterDto>()
-            {
-                new GetCharacterDto { Name = "A", Id = 1 },
-                new GetCharacterDto { Name = "B", Id = 2 },
-            }
-        };
-
-        //mock serviceResponse to return mockCharacters
-
-        _factory.CharacterServiceMock.Setup(r => r.GetAllCharacters()).ReturnsAsync(mockCharacters);
-
+        
         var response = await _client.GetAsync("/api/Character/GetAll");
 
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
-
-        // var data = JsonConvert.DeserializeObject<IEnumerable<Character>>(await response.Content.ReadAsStringAsync());
-
-        // for (var i = 0; i < data.Count(); i++)
-        // {
-        //     Assert.That(data.ElementAt(i).Name, Is.EqualTo(mockCharacters.ElementAt(i).Name));
-        // }
-
-        // Assert.That(data.Count(), Is.EqualTo(2));
-        //
-        // _factory.CharacterServiceMock.Verify(r => r.GetAllCharacters(), Times.Once);
     }
 
     [Test]
@@ -67,7 +50,18 @@ public class CharacterControllerTests : IDisposable
     {
         var mockCharacters = new ServiceResponse<List<GetCharacterDto>>
         {
-            Data = null,
+            Data = new List<GetCharacterDto>()
+            {
+                new GetCharacterDto()
+                {
+                    Id = 2,
+                    Name = "Oak",
+                    HitPoints = 100,
+                    Strength = 10,
+                    Defense = 10,
+                    Intelligence = 10,
+                }
+            },
             Success = true,
             Message = "Success"
         };
@@ -87,11 +81,8 @@ public class CharacterControllerTests : IDisposable
         var response = await _client.GetAsync("/api/Character/GetAll");
 
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-    }
-    
-    public void Dispose()
-    {
-        _client.Dispose();
-        _factory.Dispose();
+        
+        var data = JsonConvert.DeserializeObject<ServiceResponse<List<GetCharacterDto>>>(await response.Content.ReadAsStringAsync());
+        Assert.That(data.Data.ElementAt(0).Name, Is.EqualTo("Oak"));
     }
 }
