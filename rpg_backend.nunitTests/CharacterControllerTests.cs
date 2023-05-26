@@ -127,7 +127,7 @@ public class CharacterControllerTests : IDisposable
     [Test]
     public async Task DeleteCharacter_Authorized_Returns200()
     {
-        var mockCharacter = new ServiceResponse<List<GetCharacterDto>>
+        var mockCharacters = new ServiceResponse<List<GetCharacterDto>>
         {
             Data = new List<GetCharacterDto>()
             {
@@ -139,22 +139,13 @@ public class CharacterControllerTests : IDisposable
                     Strength = 10,
                     Defense = 10,
                     Intelligence = 10,
-                },
-                new GetCharacterDto()
-                {
-                    Id = 3,
-                    Name = "Oak2",
-                    HitPoints = 100,
-                    Strength = 10,
-                    Defense = 10,
-                    Intelligence = 10,
                 }
             },
             Success = true,
             Message = "Success"
         };
 
-        _factory.CharacterServiceMock.Setup(r => r.GetAllCharacters()).ReturnsAsync(mockCharacter);
+        _factory.CharacterServiceMock.Setup(r => r.DeleteCharacter(2)).ReturnsAsync(mockCharacters).Verifiable();
 
         var user = new UserLoginDto()
         {
@@ -170,12 +161,6 @@ public class CharacterControllerTests : IDisposable
 
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         
-        var data = JsonConvert.DeserializeObject<ServiceResponse<List<GetCharacterDto>>>(await response.Content.ReadAsStringAsync());
-        Console.WriteLine("data");
-        foreach (var item in data.Data)
-        {
-            Console.WriteLine(item.Name);
-        }
-        Assert.That(data.Data.Count, Is.EqualTo(1));
+        _factory.CharacterServiceMock.Verify(r => r.DeleteCharacter(2), Times.Once);
     }
 }
