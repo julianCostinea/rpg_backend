@@ -1,0 +1,2 @@
+﻿GET https://localhost:7136/api/Character/GetAll
+Content-Type: application/json 

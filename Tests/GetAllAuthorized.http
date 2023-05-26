@@ -1,0 +1,3 @@
+﻿GET https://localhost:7136/api/Character/GetAll
+Content-Type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJvYWsiLCJuYmYiOjE2ODUxMDIyMDAsImV4cCI6MTY4NTE4ODYwMCwiaWF0IjoxNjg1MTAyMjAwfQ.-VwuG2EQRlu5vAoF2clSBqoLOMunwvEe_8LNqJRZwrO1P4Y9HFe6ivQmcuHhwhwu5QY65TkOnlb7cTpV8rV_hA
